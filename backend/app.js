@@ -1,8 +1,15 @@
 const express = require('express')
 const app = express()
+const redis = require('redis')
+const client = redis.createClient()
+client.connect()
+
 const port = 3000
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.get('/', async (req, res) => {
+    let value = await client.get("test")
+    res.json(value)
+})
 
 app.listen(port, () => console.log(`Example main listening at http://localhost:${port}`))
 
