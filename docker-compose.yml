@@ -1,11 +1,16 @@
 version: '3.0'
+networks:
+  compose_networks:
+    driver: "bridge"
 services:
   web:
     build: ./backend
     ports:
      - "3000:3000"
+    links:
+      - redis
     networks:
-      - compose-networks
+      - compose_networks
 
   redis:
    image: redis
@@ -15,7 +20,6 @@ services:
     - "name=redis"
     - "mode = standalone"
    ports:
-    - "6379:6379"
-
-networks:
-  compose-networks:
+    - "6379:6379" 
+   networks:
+    - compose_networks
